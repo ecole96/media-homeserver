@@ -125,6 +125,7 @@ services:
       - ./config/npm:/data
       - ./config/letsencrypt:/etc/letsencrypt
   portainer:
+    container_name: portainer
     image: portainer/portainer-ce:latest
     ports:
       - 9444:9443
