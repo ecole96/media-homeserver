@@ -37,6 +37,8 @@ services:
     network_mode: "service:gluetun"
     environment:
       - TZ=America/Louisville
+      - PUID=0
+      - PGID=0
     volumes:
       - ./config/prowlarr:/config
     restart: unless-stopped
@@ -50,6 +52,8 @@ services:
       - ./downloads:/downloads
     environment:
       - TZ=America/Louisville
+      - PUID=0
+      - PGID=0
     image: lscr.io/linuxserver/radarr:5.15.1
   sonarr:
     restart: unless-stopped
@@ -61,6 +65,8 @@ services:
       - ./downloads:/downloads
     environment:
       - TZ=America/Louisville
+      - PUID=0
+      - PGID=0
     image: lscr.io/linuxserver/sonarr:4.0.11
   qbittorrent:
     image: lscr.io/linuxserver/qbittorrent:5.0.2
@@ -69,6 +75,8 @@ services:
     environment:
       - TZ=America/Louisville
       - WEBUI_PORT=8090
+      - PUID=0
+      - PGID=0
     volumes:
       - ./config/qbittorrent:/config
       - ./downloads:/downloads # optional
@@ -80,6 +88,8 @@ services:
     container_name: jellyfin
     environment:
       - TZ=America/Louisville
+      - PUID=0
+      - PGID=0
       - UMASK_SET=022 # optional
     volumes:
       - ./config/jellyfin:/config
