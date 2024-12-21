@@ -14,7 +14,7 @@ services:
       - 9696:9696 # prowlarr
       - 7878:7878 # radarr
       - 8989:8989 # sonarr
-      - 8090:8090 # qbittorrent
+      - 8090:8090 # qbittorrent web UI
       - 8191:8191 # flaresolverr
     volumes:
       - ./config/gluetun:/gluetun
@@ -37,8 +37,8 @@ services:
     network_mode: "service:gluetun"
     environment:
       - TZ=America/Louisville
-      - PUID=0
-      - PGID=0
+      - PUID=${PUID}
+      - PGID=${PGID}
     volumes:
       - ./config/prowlarr:/config
     restart: unless-stopped
@@ -52,8 +52,8 @@ services:
       - ./downloads:/downloads
     environment:
       - TZ=America/Louisville
-      - PUID=0
-      - PGID=0
+      - PUID=${PUID}
+      - PGID=${PGID}
     image: lscr.io/linuxserver/radarr:5.15.1
   sonarr:
     restart: unless-stopped
@@ -65,8 +65,8 @@ services:
       - ./downloads:/downloads
     environment:
       - TZ=America/Louisville
-      - PUID=0
-      - PGID=0
+      - PUID=${PUID}
+      - PGID=${PGID}
     image: lscr.io/linuxserver/sonarr:4.0.11
   qbittorrent:
     image: lscr.io/linuxserver/qbittorrent:5.0.2
@@ -75,8 +75,8 @@ services:
     environment:
       - TZ=America/Louisville
       - WEBUI_PORT=8090
-      - PUID=0
-      - PGID=0
+      - PUID=${PUID}
+      - PGID=${PGID}
     volumes:
       - ./config/qbittorrent:/config
       - ./downloads:/downloads # optional
@@ -88,8 +88,8 @@ services:
     container_name: jellyfin
     environment:
       - TZ=America/Louisville
-      - PUID=0
-      - PGID=0
+      - PUID=${PUID}
+      - PGID=${PGID}
       - UMASK_SET=022 # optional
     volumes:
       - ./config/jellyfin:/config
@@ -105,31 +105,4 @@ services:
     container_name: flaresolverr
     environment:
       - TZ=America/Louisville
-    restart: unless-stopped
-  npm:
-    image: jc21/nginx-proxy-manager:2.10.4
-    container_name: npm
-    restart: unless-stopped
-    ports:
-      # These ports are in format <host-port>:<container-port>
-      - '8001:80' # Public HTTP Port
-      - '4431:443' # Public HTTPS Port
-      - '8083:81' # Admin Web Port
-      # Add any other Stream port you want to expose
-      # - '21:21' # FTP
-    environment:
-      - TZ=America/Louisville
-      # Uncomment this if IPv6 is not enabled on your host
-      # DISABLE_IPV6: 'true'
-    volumes:
-      - ./config/npm:/data
-      - ./config/letsencrypt:/etc/letsencrypt
-  portainer:
-    container_name: portainer
-    image: portainer/portainer-ce:latest
-    ports:
-      - 9444:9443
-    volumes:
-      - ./config/portainer:/data
-      - /var/run/docker.sock:/var/run/docker.sock
     restart: unless-stopped
