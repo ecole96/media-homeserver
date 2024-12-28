@@ -22,9 +22,13 @@ services:
     environment:
       # See https://github.com/qdm12/gluetun-wiki/tree/main/setup#setup
       - VPN_SERVICE_PROVIDER=nordvpn
+      # options are wireguard or openvpn
       - VPN_TYPE=wireguard
       # Wireguard:
       - WIREGUARD_PRIVATE_KEY=${WIREGUARD_PRIVATE_KEY}
+      # OpenVPN:
+      # - OPENVPN_USER=
+      # - OPENVPN_PASSWORD=
       # Timezone for accurate log times
       - TZ=America/Louisville
       # Server list updater
