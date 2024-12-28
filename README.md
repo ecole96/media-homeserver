@@ -20,4 +20,4 @@
 9. Start adding movies / TV in Sonarr and Radarr. Once qBittorrent downloads them to the `downloads` folder, they get moved to the `tv` and `movie` folders where they are accessible from Jellyfin.
 
 ## Stop stack
-`docker compose -f local.yml down`
+`docker compose -f <your-compose-file-here.yml> down`
