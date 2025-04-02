@@ -31,6 +31,7 @@ services:
       # See https://github.com/qdm12/gluetun-wiki/blob/main/setup/servers.md#update-the-vpn-servers-list
       - UPDATER_PERIOD=24h
       - SERVER_COUNTRIES=United States
+      - WIREGUARD_PERSISTENT_KEEPALIVE_INTERVAL=60s
   prowlarr:
     image: lscr.io/linuxserver/prowlarr:1.27.0
     container_name: prowlarr
