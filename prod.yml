@@ -42,6 +42,8 @@ services:
     volumes:
       - ./config/prowlarr:/config
     restart: unless-stopped
+    depends_on:
+      - gluetun
   radarr:
     restart: unless-stopped
     container_name: radarr
@@ -55,6 +57,8 @@ services:
       - PUID=${PUID}
       - PGID=${PGID}
     image: lscr.io/linuxserver/radarr:5.15.1
+    depends_on:
+      - gluetun
   sonarr:
     restart: unless-stopped
     container_name: sonarr
@@ -68,6 +72,8 @@ services:
       - PUID=${PUID}
       - PGID=${PGID}
     image: lscr.io/linuxserver/sonarr:4.0.11
+    depends_on:
+      - gluetun
   qbittorrent:
     image: lscr.io/linuxserver/qbittorrent:5.0.2
     container_name: qbittorrent

@@ -1,6 +1,6 @@
 services:
   gluetun:
-    image: qmcgaw/gluetun:v3.39.1
+    image: qmcgaw/gluetun:latest
     container_name: gluetun
     # line above must be uncommented to allow external containers to connect.
     # See https://github.com/qdm12/gluetun-wiki/blob/main/setup/connect-a-container-to-gluetun.md#external-container-to-gluetun
@@ -54,8 +54,7 @@ services:
     network_mode: "service:gluetun"
     volumes:
       - ./config/radarr:/config
-      - ./movies:/movies
-      - ./downloads:/downloads
+      - ./data:/data
     environment:
       - TZ=America/Louisville
       - PUID=${PUID}
@@ -69,8 +68,7 @@ services:
     network_mode: "service:gluetun"
     volumes:
       - ./config/sonarr:/config
-      - ./tv:/tv
-      - ./downloads:/downloads
+      - ./data:/data
     environment:
       - TZ=America/Louisville
       - PUID=${PUID}
@@ -89,7 +87,7 @@ services:
       - PGID=${PGID}
     volumes:
       - ./config/qbittorrent:/config
-      - ./downloads:/downloads # optional
+      - ./data/torrents:/data/torrents
     restart: unless-stopped
     depends_on:
       - gluetun
@@ -103,8 +101,7 @@ services:
       - UMASK_SET=022 # optional
     volumes:
       - ./config/jellyfin:/config
-      - ./tv:/data/tvshows:ro
-      - ./movies:/data/movies:ro
+      - ./data/media:/data/media
     ports:
       - 8096:8096
     restart: unless-stopped
