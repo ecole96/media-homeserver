@@ -103,7 +103,6 @@ services:
       - ./movies:/data/movies:ro
     ports:
       - 8096:8096
-      - 8920:8920
     restart: unless-stopped
   flaresolverr:
     image: flaresolverr/flaresolverr:v3.3.21
@@ -112,6 +111,8 @@ services:
     environment:
       - TZ=America/Louisville
     restart: unless-stopped
+    depends_on:
+      - gluetun
   npm:
     image: jc21/nginx-proxy-manager:2.10.4
     container_name: npm
