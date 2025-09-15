@@ -1,3 +1,9 @@
+version: "3.9"
+
+networks:
+  media-homeserver_default:
+    driver: bridge
+
 services:
   gluetun:
     image: qmcgaw/gluetun:v3.39.1
@@ -98,6 +104,8 @@ services:
       - PUID=${PUID}
       - PGID=${PGID}
       - UMASK_SET=022 # optional
+    networks:
+      - media-homeserver_default
     volumes:
       - ./config/jellyfin:/config
       - ./tv:/data/tvshows:ro
@@ -114,30 +122,24 @@ services:
     restart: unless-stopped
     depends_on:
       - gluetun
-  npm:
-    image: jc21/nginx-proxy-manager:2.10.4
-    container_name: npm
-    restart: unless-stopped
-    ports:
-      # These ports are in format <host-port>:<container-port>
-      - '80:80' # Public HTTP Port
-      - '443:443' # Public HTTPS Port
-      - '8083:81' # Admin Web Port
-      # Add any other Stream port you want to expose
-      # - '21:21' # FTP
-    environment:
-      - TZ=America/Louisville
-      # Uncomment this if IPv6 is not enabled on your host
-      # DISABLE_IPV6: 'true'
-    volumes:
-      - ./config/npm:/data
-      - ./config/letsencrypt:/etc/letsencrypt
   portainer:
     container_name: portainer
     image: portainer/portainer-ce:latest
+    networks:
+      - media-homeserver_default
     ports:
       - 9444:9443
     volumes:
       - ./config/portainer:/data
       - /var/run/docker.sock:/var/run/docker.sock
     restart: unless-stopped
+  cloudflared:
+    image: cloudflare/cloudflared:latest
+    container_name: cloudflared
+    restart: unless-stopped
+    networks:
+      - media-homeserver_default
+    volumes:
+      - ./config/cloudflared/config.yml:/etc/cloudflared/config.yml:ro
+      - ./config/cloudflared/${TUNNEL_ID}.json:/etc/cloudflared/${TUNNEL_ID}.json:ro
+    command: tunnel --no-autoupdate run
