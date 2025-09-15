@@ -1,19 +1,19 @@
-# Replace <YOUR-TUNNEL-ID> and "example.com" before launching cloudflared container
+# Replace <YOUR-TUNNEL-ID>, <DOMAIN>, and <LOCAL-IP> before launching cloudflared container
 
-tunnel: <YOUR_TUNNEL_ID>
-credentials-file: /etc/cloudflared/<YOUR_TUNNEL_ID>.json
+tunnel: <TUNNEL_ID>
+credentials-file: /etc/cloudflared/<TUNNEL_ID>.json
 
 ingress:
   # Radarr (through Gluetun port 7878)
-  - hostname: radarr.example.com
-    service: http://host.docker.internal:7878
+  - hostname: radarr.<DOMAIN>
+    service: http://<LOCAL-IP>:7878
 
   # Sonarr (through Gluetun port 8989)
-  - hostname: sonarr.example.com
-    service: http://host.docker.internal:8989
+  - hostname: sonarr.<DOMAIN>
+    service: http://<LOCAL-IP>:8989
 
   # Jellyfin (direct, it has its own network)
-  - hostname: jellyfin.example.com
+  - hostname: jellyfin.<DOMAIN>
     service: http://jellyfin:8096
 
   # Default catch-all
