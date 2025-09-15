@@ -6,11 +6,11 @@ credentials-file: /etc/cloudflared/<YOUR_TUNNEL_ID>.json
 ingress:
   # Radarr (through Gluetun port 7878)
   - hostname: radarr.example.com
-    service: http://gluetun:7878
+    service: http://host.docker.internal:7878
 
   # Sonarr (through Gluetun port 8989)
   - hostname: sonarr.example.com
-    service: http://gluetun:8989
+    service: http://host.docker.internal:8989
 
   # Jellyfin (direct, it has its own network)
   - hostname: jellyfin.example.com

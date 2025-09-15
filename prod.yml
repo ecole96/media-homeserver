@@ -1,7 +1,7 @@
 version: "3.9"
 
 networks:
-  media-homeserver_default:
+  homelab:
     driver: bridge
 
 services:
@@ -105,7 +105,7 @@ services:
       - PGID=${PGID}
       - UMASK_SET=022 # optional
     networks:
-      - media-homeserver_default
+      - homelab
     volumes:
       - ./config/jellyfin:/config
       - ./tv:/data/tvshows:ro
@@ -126,7 +126,7 @@ services:
     container_name: portainer
     image: portainer/portainer-ce:latest
     networks:
-      - media-homeserver_default
+      - homelab
     ports:
       - 9444:9443
     volumes:
@@ -138,7 +138,7 @@ services:
     container_name: cloudflared
     restart: unless-stopped
     networks:
-      - media-homeserver_default
+      - homelab
     volumes:
       - ./config/cloudflared/config.yml:/etc/cloudflared/config.yml:ro
       - ./config/cloudflared/${TUNNEL_ID}.json:/etc/cloudflared/${TUNNEL_ID}.json:ro
