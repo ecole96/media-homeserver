@@ -1,9 +1,6 @@
-version: "3.9"
-
 networks:
   homelab:
     driver: bridge
-
 services:
   gluetun:
     image: qmcgaw/gluetun:v3.39.1
